@@ -1,0 +1,146 @@
+﻿@page "/create-project"
+@using BlazorServerTemplate.Data.Models
+@using BlazorServerTemplate.Services.ServiceModels;
+
+<PageTitle>Create-project</PageTitle>
+@if (IsProjectCompleted == false)
+{
+    <div class="container">
+        <div class="row">
+            <h2>Create project</h2>
+            <EditForm Model="@exampleModel" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="col-md-6">
+                    <div class="row">
+                        <label>
+                            Project name:<span class="spancolor">*</span>
+
+                        </label>
+                        <InputText @bind-Value="exampleModel.Name" />
+                        <ValidationMessage For="() => exampleModel.Name" />
+                    </div>
+                     <div class="row">
+                        <label>
+                            Deadline:<span class="spancolor">*</span>
+
+                        </label>
+
+                        <InputText @bind-Value="exampleModel.EndDate" />
+                        <ValidationMessage For="() => exampleModel.EndDate" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Techology:<span class="spancolor">*</span>
+
+                        </label>
+
+                        <InputText @bind-Value="exampleModel.Technology" />
+                        <ValidationMessage For="() => exampleModel.Technology" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Domain name
+
+                        </label>
+                        <InputText @bind-Value="exampleModel.Domain" />
+                        <ValidationMessage For="() => exampleModel.Domain" />
+                    </div>
+                     <div class="row">
+                        <label>
+                            Budget
+
+                        </label>
+                        <InputNumber @bind-Value="exampleModel.Budget" />
+                        <ValidationMessage For="() => exampleModel.Budget" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Hosting name
+
+                        </label>
+                        <InputText @bind-Value="exampleModel.Host" />
+                        <ValidationMessage For="() => exampleModel.Host" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <label>
+                            More Information:
+
+                        </label>
+                        <InputTextArea @bind-Value="exampleModel.MoreInformation" />
+                        <ValidationMessage For="() => exampleModel.MoreInformation" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Specification:
+
+                        </label>
+                        <InputTextArea @bind-Value="exampleModel.Specification" />
+                          <ValidationMessage For="() => exampleModel.Specification" />
+                    </div>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+
+
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <h3>
+                You created project @exampleModel.Name
+            </h3>
+        </div>
+        <div class="row">
+            <h2>Create contact</h2>
+            <EditForm Model="@contactInputModel" OnValidSubmit="@HandleValidSubmitContact">
+                <DataAnnotationsValidator />
+
+                <div class="col-md-6">
+                    <div class="row">
+                        <label>
+                            Contact name:<span class="spancolor">*</span>
+
+                        </label>
+                        <InputText @bind-Value="contactInputModel.ContactName" />
+                        <ValidationMessage For="() => contactInputModel.ContactName" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Contact email:<span class="spancolor">*</span>
+
+                        </label>
+
+                        <InputText @bind-Value="contactInputModel.ContactEmail" />
+                        <ValidationMessage For="() => contactInputModel.ContactEmail" />
+                    </div>
+                    <div class="row">
+                        <label>
+                            Contact phone:<span class="spancolor">*</span>
+
+                        </label>
+                        <InputText @bind-Value="contactInputModel.ContactPhone" />
+                        <ValidationMessage For="() => contactInputModel.ContactPhone" />
+                    </div>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+
+            </EditForm>
+
+        </div>
+    </div>
+    <div class="container">
+        <Virtualize Items="@contacts" Context="Name" TItem="string" ItemSize="6">
+                       <p>@Name</p>
+                    </Virtualize>
+    </div>
+}

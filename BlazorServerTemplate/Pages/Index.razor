@@ -1,0 +1,24 @@
+﻿@page "/"
+@using BlazorServerTemplate.Services
+@using BlazorServerTemplate.Services.ServiceModels
+
+<PageTitle>Index</PageTitle>
+@inject ProjectService Project
+<h1>Hello, world!</h1>
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <h1>Hello, @context.User.Identity.Name!</h1>
+        <p>You can only see this content if you're Administrator.</p>
+
+    </Authorized>
+</AuthorizeView>
+Welcome to your new app.
+<RadzenButton Text="Hi"></RadzenButton>
+<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    bool isTrue;
+    ProjectInputModel model = new ProjectInputModel();
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}
