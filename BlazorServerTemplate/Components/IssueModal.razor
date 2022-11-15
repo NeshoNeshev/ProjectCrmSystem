@@ -1,0 +1,83 @@
+﻿@using BlazorServerTemplate.Services.ServiceModels
+<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Add issue</h5>
+
+            </div>
+            <div class="modal-body">
+                @if (inputModel == null)
+                {
+                   
+                }
+                else
+                {
+                    <EditForm Model="@inputModel" class="form-group" enctype="multipart/form-data">
+                        <DataAnnotationsValidator />
+
+                        <div class="form-group form-focus">
+                            <InputText class="form-control floating" id="names" placeholder="Вашите имена" @bind-Value="inputModel.Name" />
+                            <ValidationMessage For="@(() => inputModel.Name)" />
+                            <label class="focus-label">Име на услугата</label>
+                        </div>
+
+                        <div class="form-group form-focus mt-30">
+                            <InputText class="form-control" id="email" placeholder="Имейл" @bind-Value="inputModel.Information" />
+                            <ValidationMessage For="@(() => inputModel.Information)" />
+                            <label class="focus-label">Цена</label>
+                        </div>
+                    </EditForm>
+                }
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="@Save">Запази</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Отмени</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@if (ShowBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnDoneCallback { get; set; }
+    private IssueInputModel? inputModel;
+
+    public Guid Guid = Guid.NewGuid();
+    public string ModalDisplay = "none;";
+    public string ModalClass = "";
+    public bool ShowBackdrop = false;
+    public bool IsTrue = false;
+    public void Open(string Id)
+    {
+        inputModel = new IssueInputModel();
+        inputModel.ProjectId = Id;
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        ShowBackdrop = true;
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ShowBackdrop = false;
+        StateHasChanged();
+    }
+    private async Task Save()
+    {
+
+        await InvokeAsync(() => OnDoneCallback.InvokeAsync("dad"));
+        StateHasChanged();
+        Close();
+    }
+}

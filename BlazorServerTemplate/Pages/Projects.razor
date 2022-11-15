@@ -1,11 +1,12 @@
 ﻿@page "/projects"
+@using BlazorServerTemplate.Components
 @using BlazorServerTemplate.Services
 @using BlazorServerTemplate.Services.ServiceModels
 @using BlazorServerTemplate.ViewModels
 
 <PageTitle>Projects</PageTitle>
 @inject ProjectService Project
-<h1>Hello, world!</h1>
+<h1 class="text-center">Projects</h1>
 <RadzenDataGrid @ref="grid" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single"
                 Data="@projects" TItem="ProjectViewModel">
     <Template Context="project">
@@ -15,16 +16,27 @@
         </RadzenCard>
         <RadzenTabs>
             <Tabs>
- <RadzenTabsItem Text="Contacts">
-                        <RadzenDataGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@project?.Contacts" TItem="ContactViewModel">
-                            <Columns>
+                <RadzenTabsItem Text="Contacts">
+                    <RadzenDataGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@project?.Contacts" TItem="ContactViewModel">
+                        <Columns>
+                            
                             <RadzenDataGridColumn TItem="ContactViewModel" Property="Name" Title="Name" />
-                                <RadzenDataGridColumn TItem="ContactViewModel" Property="Phone" Title="Phone" />
-                            <RadzenDataGridColumn TItem="ContactViewModel" Property="Email" Title="Email" />
-                            </Columns>
-                        </RadzenDataGrid>
-                    </RadzenTabsItem>
+                            <RadzenDataGridColumn TItem="ContactViewModel" Context="Phone" Property="Phone" Title="Phone">
+                                <Template Context="data">
+                                    <a href="tel:@data.Phone">@data.Phone</a>
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="ContactViewModel" Context="Email" Property="Email" Title="Email">
+                                <Template Context="email">
+                                    <a href="mailto:@email.Email">@email.Email</a>
+                                </Template>
+                            </RadzenDataGridColumn>
+                           
+                        </Columns>
+                    </RadzenDataGrid>
+                </RadzenTabsItem>
                 <RadzenTabsItem Text="Issues">
+                    <button type="button" class="btn btn-primary btn-sm" @onclick="() => ShureModal.Open(project.Id)">Add issue</button>
                     <RadzenDataList WrapItems="true" AllowPaging="true" Data="@project?.Issues" TItem="IssueViewModel" PageSize="10">
                         <Template Context="detail">
                             <RadzenCard Style="width:100px; height:100px">
@@ -43,8 +55,18 @@
 
         <RadzenDataGridColumn TItem="ProjectViewModel" Property="StartDate" Title="Start date" FormatString="{0:d}" Width="140px" />
         <RadzenDataGridColumn TItem="ProjectViewModel" Property="EndDate" Title="Deadline" FormatString="{0:d}" Width="140px" />
-      
+
         <RadzenDataGridColumn TItem="ProjectViewModel" Property="Technology" Title="Techology" />
         <RadzenDataGridColumn TItem="ProjectViewModel" Property="Host" Title="Ship Country" />
     </Columns>
 </RadzenDataGrid>
+
+<IssueModal @ref="ShureModal" OnDoneCallback="OnClickNotShowUp"></IssueModal>
+@code{
+    private IssueModal ShureModal { get; set; }
+    private async Task OnClickNotShowUp(string id)
+    {
+       
+        StateHasChanged();
+    }
+}
