@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\BlazorServerTemplate.Data\BlazorServerTemplate.Data.csproj" />
+    <ProjectReference Include="..\BlazorServerTemplate.Services.Mapping\BlazorServerTemplate.Services.Mapping.csproj" />
   </ItemGroup>
 
 </Project>

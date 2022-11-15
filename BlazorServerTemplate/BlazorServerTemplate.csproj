@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8" />
-    <PackageReference Include="Radzen.Blazor" Version="3.20.4" />
+    <PackageReference Include="Radzen.Blazor" Version="4.3.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +21,6 @@
     <ProjectReference Include="..\Services\BlazorServerTemplate.Services.Mapping\BlazorServerTemplate.Services.Mapping.csproj" />
     <ProjectReference Include="..\Services\BlazorServerTemplate.Services.Messaging\BlazorServerTemplate.Services.Messaging.csproj" />
     <ProjectReference Include="..\Services\BlazorServerTemplate.Services\BlazorServerTemplate.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

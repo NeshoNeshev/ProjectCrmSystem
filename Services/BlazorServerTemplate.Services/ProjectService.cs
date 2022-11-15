@@ -1,7 +1,9 @@
 ﻿using BlazorServerTemplate.Data.Models;
 using BlazorServerTemplate.Data.Repositories;
+using BlazorServerTemplate.Services.Mapping;
 using BlazorServerTemplate.Services.ServiceModels;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace BlazorServerTemplate.Services
 {
@@ -12,7 +14,7 @@ namespace BlazorServerTemplate.Services
         {
             this.projectRepository = projectRepository;
         }
-
+       
         public async Task<bool> CreateAsync(ProjectInputModel entity)
         {
             var exist = await this.projectRepository.All().FirstOrDefaultAsync(x => x.Name == entity.Name);
@@ -74,6 +76,30 @@ namespace BlazorServerTemplate.Services
 
             return project.Id;
         }
-    }
 
+        public async Task<IEnumerable<T>> GetAll<T>()
+        {
+            IQueryable<Project> query = this.projectRepository.All();
+           
+            var result = await query.To<T>().ToListAsync();
+            return result;
+        }
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int? count = null)
+        {
+            IQueryable<Project> query = this.projectRepository.All();
+            if (count.HasValue)
+            {
+                query = query.Take(count.Value);
+            }
+            var result = await query.To<T>().ToListAsync();
+            return result;
+        }
+        public async Task<IEnumerable<T>> GetByIdAsync<T>(string Id)
+        {
+            IQueryable<Project> query = this.projectRepository.All().Where(x=>x.Id == Id);
+           
+            var result = await query.To<T>().ToListAsync();
+            return result;
+        }
+    }
 }
